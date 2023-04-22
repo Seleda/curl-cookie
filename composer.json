@@ -1,0 +1,16 @@
+{
+    "name": "seleda/curl-cookie",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Seleda\\CurlCookie\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sergey Petrov"
+        }
+    ],
+    "require": {}
+}
