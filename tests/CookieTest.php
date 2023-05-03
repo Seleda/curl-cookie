@@ -52,6 +52,6 @@ class CookieTest extends TestCase
 
         curl_close($curl);
 
-        var_dump($cookies);
+        //var_dump($cookies);
     }
 }

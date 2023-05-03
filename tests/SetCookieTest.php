@@ -7,7 +7,7 @@ use Seleda\CurlCookie\SetCookie\SetCookieGuzzle;
 
 class SetCookieTest extends TestCase
 {
-    public function test_getLine()
+    public function test_getSameSite()
     {
         $data = [
             'Set-Cookie: 1P_JAR=2023-05-03-01; expires=Fri, 02-Jun-2023 01:38:25 GMT; path=/; domain=.google.com; Secure

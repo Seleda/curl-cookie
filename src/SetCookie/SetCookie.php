@@ -85,4 +85,9 @@ abstract class SetCookie
     {
         return $this->httpOnly;
     }
+
+    public function getSameSite()
+    {
+        return $this->sameSite;
+    }
 }
