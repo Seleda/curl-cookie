@@ -61,32 +61,32 @@ abstract class SetCookie
         return $this->expires;
     }
 
-    public function getMaxAge()
+    public function getMaxAge():int
     {
         return $this->maxAge;
     }
 
-    public function getDomain()
+    public function getDomain():string
     {
         return $this->domain;
     }
 
-    public function getPath()
+    public function getPath():string
     {
         return $this->path;
     }
 
-    public function getSecure()
+    public function getSecure():bool
     {
         return $this->secure;
     }
 
-    public function getHttpOnly()
+    public function getHttpOnly():bool
     {
         return $this->httpOnly;
     }
 
-    public function getSameSite()
+    public function getSameSite():string
     {
         return $this->sameSite;
     }
