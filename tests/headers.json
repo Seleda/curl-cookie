@@ -1,0 +1,46 @@
+{
+  "Date": [
+    "Sun, 23 Apr 2023 01:13:20 GMT"
+  ],
+  "Expires": [
+    "-1"
+  ],
+  "Cache-Control": [
+    "private, max-age=0"
+  ],
+  "Content-Type": [
+    "text\/html; charset=ISO-8859-1"
+  ],
+  "Content-Security-Policy-Report-Only": [
+    "object-src 'none';base-uri 'self';script-src 'nonce-785zuOcXYfz4v3_rj30Hjw' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https:\/\/csp.withgoogle.com\/csp\/gws\/other-hp"
+  ],
+  "P3P": [
+    "CP=\"This is not a P3P policy! See g.co\/p3phelp for more info.\""
+  ],
+  "Server": [
+    "gws"
+  ],
+  "X-XSS-Protection": [
+    "0"
+  ],
+  "X-Frame-Options": [
+    "SAMEORIGIN"
+  ],
+  "Set-Cookie": [
+    "1P_JAR=2023-04-23-01; expires=Tue, 23-May-2023 01:13:20 GMT; path=\/; domain=.google.com; Secure",
+    "AEC=AUEFqZeFcO0zx25Hq5YPuOd_yqPQKdSmc-CzqnUIO2E9v61vlapmtU4DgGc; expires=Fri, 20-Oct-2023 01:13:20 GMT; path=\/; domain=.google.com; Secure; HttpOnly; SameSite=lax",
+    "NID=511=c-AuIuh59Rz6XL_7KdQjdI7X7uRLKP_1YXT_lBIDt69mY2DMGHXd_G8jBkNUZL-YacFH9tcVTExaEAnO2ZpznAStH9mo9GNQZOtlkjHDozbpXMYvt0fVB8nbUVVaf-nqFKNbNt6abwX0cG0kxPZS356F8V_-pYCzwx-y4bcq9zE; expires=Mon, 23-Oct-2023 01:13:20 GMT; path=\/; domain=.google.com; HttpOnly"
+  ],
+  "Alt-Svc": [
+    "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+  ],
+  "Accept-Ranges": [
+    "none"
+  ],
+  "Vary": [
+    "Accept-Encoding"
+  ],
+  "Transfer-Encoding": [
+    "chunked"
+  ]
+}
