@@ -10,9 +10,19 @@ class SetCookieTest extends TestCase
     /**
      * @dataProvider providerCurl
      */
-    public function test_SetCookieCurl($input, $name, $value, $expires, $maxAge, $domain, $path, $secure, $httpOnly, $SameSite)
+    public function test_SetCookieCurlAndGuzzle($input, $name, $value, $expires, $maxAge, $domain, $path, $secure, $httpOnly, $SameSite)
     {
         $set_cookie = new SetCookieCurl($input);
+        $this->assertEquals($name, $set_cookie->getName());
+        $this->assertEquals($value, $set_cookie->getValue());
+        $this->assertEquals($domain, $set_cookie->getDomain());
+        $this->assertEquals($expires, $set_cookie->getExpires());
+        $this->assertEquals($maxAge, $set_cookie->getMaxAge());
+        $this->assertEquals($path, $set_cookie->getPath());
+        $this->assertEquals($secure, $set_cookie->getSecure());
+        $this->assertEquals($httpOnly, $set_cookie->getHttpOnly());
+        $this->assertEquals($SameSite, $set_cookie->getSameSite());
+        $set_cookie = new SetCookieGuzzle(trim(substr($input, 12)));
         $this->assertEquals($name, $set_cookie->getName());
         $this->assertEquals($value, $set_cookie->getValue());
         $this->assertEquals($domain, $set_cookie->getDomain());
