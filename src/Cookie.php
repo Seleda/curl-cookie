@@ -3,54 +3,77 @@
 
 namespace Seleda\CurlCookie;
 
-use Seleda\CurlCookie\CookieSet;
+use Seleda\CurlCookie\SetCookie\SetCookie;
+use Seleda\CurlCookie\SetCookie\SetCookieDb;
 
 class Cookie
 {
-    private static array $cookies = [];
+    private array $cookies = [];
 
-    public static function set(array $cookies): void
+    public function __construct(array $cookies_db = [])
     {
-        foreach ($cookies as $val) {
-            $cookie = new CookieSet($val);
-            self::$cookies[$cookie->getShema()][$cookie->getDomain()][$cookie->getPath()] = $cookie;
+        foreach ($cookies_db as $row) {
+            $set_cookie = new SetCookieDb($row);
+            $this->addSetCookie($set_cookie);
         }
     }
 
-    public static function get(string $url): string
+    public function addSetCookie(SetCookie $set_cookie):void
     {
-        $parse = parse_url($url);
-        $path = self::fixPath($parse['path']);
-        $root = isset(self::$cookies[$parse['scheme']][$parse['host']]['/']) ? self::$cookies[$parse['scheme']][$parse['host']]['/'] : [];
-        $path = isset(self::$cookies[$parse['scheme']][$parse['host']][$path]) ? self::$cookies[$parse['scheme']][$parse['host']][$path] : [];
-        if (count($root) == 0 && count($path) == 0) {
-            return '';
+        if (empty($this->cookies[$set_cookie->getDomain()])) {
+            $this->cookies[$set_cookie->getDomain()] = [];
+        }
+        if (empty($this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()])) {
+            $this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()] = [];
+        }
+        $this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()][] = $set_cookie;
+    }
+
+    public function get(string $url): string
+    {
+        $parse = self::parseUrl($url);
+
+        $domain = $parse['host'];
+        $path = $parse['path'];
+
+        $set_cookies = [];
+        if (isset($this->cookies[$domain][$path])) {
+            $set_cookies = array_merge($set_cookies, $this->cookies[$domain][$path]);
+        }
+        if (isset($this->cookies['.'.$domain][$path])) {
+            $set_cookies = array_merge($set_cookies, $this->cookies['.'.$domain][$path]);
+        }
+        if (substr_count($domain, '.') == 2) {
+            preg_match('/^.+(\.[^\.]+\.[^\.]+)$/', $domain, $matches);
+            $domain = $matches[1];
+            if (isset($this->cookies[$domain][$path])) {
+                $set_cookies = array_merge($set_cookies, $this->cookies[$domain][$path]);
+            }
         }
 
         $cookies = '';
-        foreach ($root as $cookie_set) {
-            $cookies .= (strlen($cookies) > 0 ? '' : '; ') . $cookie_set->get();
+        foreach ($set_cookies as $set_cookie) {
+            $cookies .= (strlen($cookies) > 0 ? ' ' : '') . $set_cookie->getName().'='.$set_cookie->getValue().';';
         }
-        foreach ($path as $cookie_set) {
-            $cookies .= (strlen($cookies) > 0 ? '; ' : '') . $cookie_set->get();
-        }
+
         return $cookies;
     }
 
-    private static function fixPath(string $path = null): string
+    public static function fixPath(string $path = ''): string
     {
-        if (is_null($path)) {
+        if (empty($path)) {
             return '/';
         }
         return $path;
     }
 
-    protected function parseUrl($url)
+    public static function parseUrl($url)
     {
         $parse = parse_url($url);
-        if (is_null($parse['path'])) {
+        if (empty($parse['path'])) {
             $parse['path'] = '/';
         }
+        $parse['path'] = self::fixPath($parse['path']);
         return $parse;
     }
 }

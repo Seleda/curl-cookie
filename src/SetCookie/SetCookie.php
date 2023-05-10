@@ -25,8 +25,14 @@ abstract class SetCookie
         $this->value = implode('=', array_slice($exp_required, 1));
         foreach ($pieces as $val) {
             if (preg_match('/^expires=(.*)/i', $val, $matches)) {
+                // Example: Fri, 02-Jun-2023 01:38:25 GMT
                 $this->expires = $matches[1];
+                // Устанавливаем на Max-Age для облегчения сравнения
+                $this->maxAge = strtotime($this->expires);
             } elseif (preg_match('/^Max-Age=(.*)/i', $val, $matches)) {
+                // Переводим на Expires
+                // Имеет приоритет перед Expires
+                $this->expires = date('D, d-M-Y H:i:s e', $matches[1]);
                 $this->maxAge = $matches[1];
             } elseif (preg_match('/^domain=(.*)/i', $val, $matches)) {
                 $this->domain = $matches[1];

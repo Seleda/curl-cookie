@@ -3,7 +3,7 @@
 
 namespace Seleda\CurlCookie\SetCookie;
 
-use Seleda\CurlCookie\SetCookie\SetCookie;
+use Seleda\CurlCookie\Cookie;
 
 class SetCookieDb extends SetCookie
 {
@@ -14,7 +14,7 @@ class SetCookieDb extends SetCookie
         $this->expires = $set_cookie['expires'];
         $this->maxAge = $set_cookie['maxAge'];
         $this->domain = $set_cookie['domain'];
-        $this->path = $set_cookie['path'];
+        $this->path = Cookie::fixPath($set_cookie['path']);
         $this->secure = $set_cookie['secure'];
         $this->httpOnly = $set_cookie['httpOnly'];
         $this->sameSite = $set_cookie['sameSite'];
