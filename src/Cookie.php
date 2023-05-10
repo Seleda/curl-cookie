@@ -18,8 +18,12 @@ class Cookie
         }
     }
 
-    public function addSetCookie(SetCookie $set_cookie):void
+    public function addSetCookie(SetCookie $set_cookie):bool
     {
+        if (strpos($set_cookie->getName(), '__Secure-') === 0 && !$set_cookie->getSecure()) {
+            return false;
+        }
+        // TODO __Host-
         if (empty($this->cookies[$set_cookie->getDomain()])) {
             $this->cookies[$set_cookie->getDomain()] = [];
         }
@@ -27,6 +31,7 @@ class Cookie
             $this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()] = [];
         }
         $this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()][] = $set_cookie;
+        return true;
     }
 
     public function get(string $url): string

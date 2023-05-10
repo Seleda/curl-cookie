@@ -18,7 +18,6 @@ class SetCookieDb extends SetCookie
         $this->secure = $set_cookie['secure'];
         $this->httpOnly = $set_cookie['httpOnly'];
         $this->sameSite = $set_cookie['sameSite'];
-
     }
 
     protected function getLine(string $set_cookie): string
