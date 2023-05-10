@@ -53,6 +53,9 @@ class Cookie
 
         $cookies = '';
         foreach ($set_cookies as $set_cookie) {
+            if ($parse['scheme'] == 'http' && $set_cookie->getSequire()) {
+                 continue;
+            }
             $cookies .= (strlen($cookies) > 0 ? ' ' : '') . $set_cookie->getName().'='.$set_cookie->getValue().';';
         }
 

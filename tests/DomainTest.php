@@ -23,4 +23,52 @@ class DomainTest extends TestCase
         ]]);
         $this->assertEquals('name=value;', $cookie->get('https://domain.com'));
     }
+
+    public function test_simpleDomainWithDot()
+    {
+        $cookie = new Cookie([[
+            'name' => 'name',
+            'value' => 'value',
+            'domain' => '.domain.com',
+            'expires' => '',
+            'maxAge' => 0,
+            'path' => '',
+            'secure' => true,
+            'httpOnly' => true,
+            'sameSite' => ''
+        ]]);
+        $this->assertEquals('name=value;', $cookie->get('https://domain.com'));
+    }
+
+    public function test_subDomain()
+    {
+        $cookie = new Cookie([[
+            'name' => 'name',
+            'value' => 'value',
+            'domain' => '.domain.com',
+            'expires' => '',
+            'maxAge' => 0,
+            'path' => '',
+            'secure' => true,
+            'httpOnly' => true,
+            'sameSite' => ''
+        ]]);
+        $this->assertEquals('name=value;', $cookie->get('https://sub.domain.com'));
+    }
+
+    public function test_subDomainWithoutDot()
+    {
+        $cookie = new Cookie([[
+            'name' => 'name',
+            'value' => 'value',
+            'domain' => 'domain.com',
+            'expires' => '',
+            'maxAge' => 0,
+            'path' => '',
+            'secure' => true,
+            'httpOnly' => true,
+            'sameSite' => ''
+        ]]);
+        $this->assertEquals('', $cookie->get('https://sub.domain.com'));
+    }
 }
