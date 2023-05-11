@@ -12,7 +12,6 @@ class SetCookieDb extends SetCookie
         $this->name = $set_cookie['name'];
         $this->value = $set_cookie['value'];
         $this->expires = $set_cookie['expires'];
-        $this->maxAge = $set_cookie['maxAge'];
         $this->domain = $set_cookie['domain'];
         $this->path = Cookie::fixPath($set_cookie['path']);
         $this->secure = $set_cookie['secure'];

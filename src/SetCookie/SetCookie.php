@@ -9,7 +9,6 @@ abstract class SetCookie
     protected string $name = '';
     protected string $value = '';
     protected string $expires = '';
-    protected int $maxAge = 0;
     protected string $domain = '';
     protected string $path = '/';
     protected bool $secure = false;
@@ -27,13 +26,10 @@ abstract class SetCookie
             if (preg_match('/^expires=(.*)/i', $val, $matches)) {
                 // Example: Fri, 02-Jun-2023 01:38:25 GMT
                 $this->expires = $matches[1];
-                // Устанавливаем на Max-Age для облегчения сравнения
-                $this->maxAge = strtotime($this->expires);
             } elseif (preg_match('/^Max-Age=(.*)/i', $val, $matches)) {
                 // Переводим на Expires
                 // Имеет приоритет перед Expires
                 $this->expires = date('D, d-M-Y H:i:s e', time() + $matches[1]);
-                $this->maxAge = $matches[1];
             } elseif (preg_match('/^domain=(.*)/i', $val, $matches)) {
                 $this->domain = $matches[1];
             } elseif (preg_match('/^path=(.*)/i', $val, $matches)) {
@@ -65,11 +61,6 @@ abstract class SetCookie
     public function getExpires()
     {
         return $this->expires;
-    }
-
-    public function getMaxAge():int
-    {
-        return $this->maxAge;
     }
 
     public function getDomain():string

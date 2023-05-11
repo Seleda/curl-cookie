@@ -36,7 +36,6 @@ class CookieTest extends TestCase
             'name' => 'name',
             'value' => 'value',
             'expires' => '',
-            'maxAge' => 0,
             'domain' => '.domain.com',
             'path' => '/path',
             'secure' => 0,
