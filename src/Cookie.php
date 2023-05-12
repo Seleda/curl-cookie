@@ -8,9 +8,11 @@ use Seleda\CurlCookie\SetCookie\SetCookieDb;
 
 class Cookie
 {
+    private static $instance;
+
     private array $cookies = [];
 
-    public function __construct(array $cookies_db = [])
+    private function __construct(array $cookies_db = [])
     {
         foreach ($cookies_db as $row) {
             $set_cookie = new SetCookieDb($row);
@@ -18,8 +20,25 @@ class Cookie
         }
     }
 
-    public function addSetCookie(SetCookie $set_cookie):bool
+    public static function getInstance():self
     {
+        if (is_null(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    public function addSetCookie(string $url, SetCookie $set_cookie):bool
+    {
+        $parse = self::parseUrl($url);
+        $scheme = $parse['scheme'];
+        $domain = $parse['host'];
+        if (empty($this->cookies[$domain])) {
+            $this->cookies[$domain] = [];
+        }
+        if (!$set_cookie->getDomain()) {
+            $set_cookie->setDomain($domain);
+        }
         if (strpos($set_cookie->getName(), '__Secure-') === 0 && !$set_cookie->getSecure()) {
             return false;
         }
@@ -30,7 +49,7 @@ class Cookie
         if (empty($this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()])) {
             $this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()] = [];
         }
-        $this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()][] = $set_cookie;
+        $this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()][$set_cookie->getName()] = $set_cookie;
         return true;
     }
 
@@ -75,7 +94,7 @@ class Cookie
         return $path;
     }
 
-    public static function parseUrl($url)
+    public static function parseUrl($url): array
     {
         $parse = parse_url($url);
         if (empty($parse['path'])) {

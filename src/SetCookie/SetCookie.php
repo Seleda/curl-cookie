@@ -58,9 +58,14 @@ abstract class SetCookie
         return $this->value;
     }
 
-    public function getExpires()
+    public function getExpires(): string
     {
         return $this->expires;
+    }
+
+    public function setDomain(string $domain): void
+    {
+        $this->domain = $domain;
     }
 
     public function getDomain():string

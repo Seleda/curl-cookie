@@ -10,7 +10,7 @@ class DomainTest extends TestCase
 {
     public function test_simpleDomain()
     {
-        $cookie = new Cookie([[
+        $cookie = Cookie::getInstance('https://domain.com',[[
             'name' => 'name',
             'value' => 'value',
             'domain' => 'domain.com',
@@ -25,7 +25,7 @@ class DomainTest extends TestCase
 
     public function test_simpleDomainWithDot()
     {
-        $cookie = new Cookie([[
+        $cookie = Cookie::getInstance('https://domain.com/', [[
             'name' => 'name',
             'value' => 'value',
             'domain' => '.domain.com',
@@ -40,7 +40,7 @@ class DomainTest extends TestCase
 
     public function test_subDomain()
     {
-        $cookie = new Cookie([[
+        $cookie = Cookie::getInstance('https://domain.com', [[
             'name' => 'name',
             'value' => 'value',
             'domain' => '.domain.com',
@@ -55,7 +55,7 @@ class DomainTest extends TestCase
 
     public function test_subDomainWithoutDot()
     {
-        $cookie = new Cookie([[
+        $cookie = Cookie::getInstance('https://domain.com', [[
             'name' => 'name',
             'value' => 'value',
             'domain' => 'domain.com',
