@@ -31,7 +31,7 @@ class RemoveTest extends TestCase
 ');
         //TODO
         $cookie->addSetCookie($url, $set_cookie);
-        $this->assertEquals('', $cookie->get('https://domain.com/'));
+        $this->assertEquals('', $cookie->get($url));
     }
 
     public function test_removeByMaxAge()
