@@ -15,7 +15,7 @@ class RemoveTest extends TestCase
 
     public function test_removeByExpires()
     {
-        $url = 'http://domain.com';
+        $url = 'https://domain.com';
         $cookie = Cookie::getInstance();
         $cookie->addSetCookie($url, new SetCookieDb([
             'name' => 'name',
@@ -30,7 +30,7 @@ class RemoveTest extends TestCase
         $set_cookie = new SetCookieCurl('Set-Cookie: name=value; expires='.date('D, d-M-Y H:i:s e', time() - 1000).'; path=/; domain=domain.com; Secure
 ');
         //TODO
-        $cookie->addSetCookie('https://domain.com', $set_cookie);
+        $cookie->addSetCookie($url, $set_cookie);
         $this->assertEquals('', $cookie->get('https://domain.com/'));
     }
 
