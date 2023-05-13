@@ -77,6 +77,10 @@ class Cookie
 
         $cookies = '';
         foreach ($set_cookies as $set_cookie) {
+            //TODO удалить сессионные cookies при сохранении
+            if ($set_cookie->getExpires() && strtotime($set_cookie->getExpires()) < time()) {
+                continue;
+            }
             if ($parse['scheme'] == 'http' && $set_cookie->getSequire()) {
                  continue;
             }
@@ -86,20 +90,24 @@ class Cookie
         return $cookies;
     }
 
-    public static function fixPath(string $path = ''): string
+    public static function reset()
     {
-        if (empty($path)) {
+        if (self::$instance) {
+            self::$instance->cookies = [];
+        }
+    }
+
+    public static function fixPath(string $path = null): string
+    {
+        if (empty($path) || $path == '/') {
             return '/';
         }
-        return $path;
+        return rtrim($path, '/');;
     }
 
     public static function parseUrl($url): array
     {
         $parse = parse_url($url);
-        if (empty($parse['path'])) {
-            $parse['path'] = '/';
-        }
         $parse['path'] = self::fixPath($parse['path']);
         return $parse;
     }

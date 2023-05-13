@@ -4,6 +4,7 @@
 use PHPUnit\Framework\TestCase;
 use Seleda\CurlCookie\Cookie;
 use Seleda\CurlCookie\SetCookie\SetCookieCurl;
+use Seleda\CurlCookie\SetCookie\SetCookieDb;
 use Seleda\CurlCookie\SetCookie\SetCookieGuzzle;
 
 class CookieTest extends TestCase
@@ -32,7 +33,8 @@ class CookieTest extends TestCase
     public function test_subDomain()
     {
         $url = 'https://subdomain.domain.com/path';
-        $cookie = Cookie::getInstance([[
+        $cookie = Cookie::getInstance();
+        $cookie->addSetCookie($url, new SetCookieDb([
             'name' => 'name',
             'value' => 'value',
             'expires' => '',
@@ -41,7 +43,7 @@ class CookieTest extends TestCase
             'secure' => 0,
             'httpOnly' => 0,
             'sameSite' => ''
-        ]]);
+        ]));
         $cookies = $cookie->get($url);
 
         $this->assertEquals('name=value;', $cookies);
