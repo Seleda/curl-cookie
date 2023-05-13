@@ -21,13 +21,13 @@ class RemoveTest extends TestCase
             'name' => 'name',
             'value' => 'value',
             'domain' => 'domain.com',
-            'expires' => 'Fri, 20-Oct-2023 01:13:20 GMT',
+            'expires' => date('D, d-M-Y H:i:s e', time() + 1000),
             'path' => '',
             'secure' => true,
             'httpOnly' => true,
             'sameSite' => ''
         ]));
-        $set_cookie = new SetCookieCurl('Set-Cookie: name=value; expires=Fri, 02-Jun-2023 01:38:25 GMT; path=/; domain=domain.com; Secure
+        $set_cookie = new SetCookieCurl('Set-Cookie: name=value; expires='.date('D, d-M-Y H:i:s e', time() - 1000).'; path=/; domain=domain.com; Secure
 ');
         //TODO
         $cookie->addSetCookie('https://domain.com', $set_cookie);
