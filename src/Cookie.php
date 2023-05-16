@@ -33,6 +33,9 @@ class Cookie
         $parse = self::parseUrl($url);
         $scheme = $parse['scheme'];
         $domain = $parse['host'];
+
+        $set_cookie_path = $set_cookie->getPath() ?? '/';
+
         if (empty($this->cookies[$domain])) {
             $this->cookies[$domain] = [];
         }
@@ -46,10 +49,10 @@ class Cookie
         if (empty($this->cookies[$set_cookie->getDomain()])) {
             $this->cookies[$set_cookie->getDomain()] = [];
         }
-        if (empty($this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()])) {
-            $this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()] = [];
+        if (empty($this->cookies[$set_cookie->getDomain()][$set_cookie_path])) {
+            $this->cookies[$set_cookie->getDomain()][$set_cookie_path] = [];
         }
-        $this->cookies[$set_cookie->getDomain()][$set_cookie->getPath()][$set_cookie->getName()] = $set_cookie;
+        $this->cookies[$set_cookie->getDomain()][$set_cookie_path][$set_cookie->getName()] = $set_cookie;
         return true;
     }
 
