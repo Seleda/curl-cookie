@@ -34,18 +34,26 @@ class Cookie
         $scheme = $parse['scheme'];
         $domain = $parse['host'];
 
-        $set_cookie_path = $set_cookie->getPath() ?? '/';
-
-        if (empty($this->cookies[$domain])) {
-            $this->cookies[$domain] = [];
+        // Проверка правил установки  с префиксом
+        if ($scheme == 'http' || !$set_cookie->getSecure()) {
+            if (substr($set_cookie->getName(), 0, 8) == '__Secure' ||
+                substr($set_cookie->getName(), 0, 6) == '__Host') {
+                return false;
+            }
         }
+        if (substr($set_cookie->getName(), 0, 6) == '__Host') {
+            if ($set_cookie->getPath() != '/' || $set_cookie->getDomain()) {
+                return false;
+            }
+        }
+        //
+
         if (!$set_cookie->getDomain()) {
             $set_cookie->setDomain($domain);
         }
-        if (strpos($set_cookie->getName(), '__Secure-') === 0 && !$set_cookie->getSecure()) {
-            return false;
-        }
-        // TODO __Host-
+
+        $set_cookie_path = $set_cookie->getPath() ? $set_cookie->getPath() : '/';
+
         if (empty($this->cookies[$set_cookie->getDomain()])) {
             $this->cookies[$set_cookie->getDomain()] = [];
         }
@@ -84,7 +92,7 @@ class Cookie
             if ($set_cookie->getExpires() && strtotime($set_cookie->getExpires()) < time()) {
                 continue;
             }
-            if ($parse['scheme'] == 'http' && $set_cookie->getSequire()) {
+            if ($parse['scheme'] == 'http' && $set_cookie->getSecure()) {
                  continue;
             }
             $cookies .= (strlen($cookies) > 0 ? ' ' : '') . $set_cookie->getName().'='.$set_cookie->getValue().';';
