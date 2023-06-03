@@ -87,9 +87,10 @@ class Cookie
         }
 
         $cookies = '';
-        foreach ($set_cookies as $set_cookie) {
+        foreach ($set_cookies as $key => $set_cookie) {
             //TODO удалить сессионные cookies при сохранении
             if ($set_cookie->getExpires() && strtotime($set_cookie->getExpires()) < time()) {
+                unset($set_cookies[$key]);
                 continue;
             }
             if ($parse['scheme'] == 'http' && $set_cookie->getSecure()) {

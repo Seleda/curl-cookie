@@ -27,6 +27,7 @@ class DomainTest extends TestCase
             'sameSite' => ''
         ]));
         $this->assertEquals('name=value;', $cookie->get('https://domain.com'));
+        $this->assertEquals('name=value;', $cookie->get('https://sub.domain.com'));
     }
 
     public function test_simpleDomainWithDot()
